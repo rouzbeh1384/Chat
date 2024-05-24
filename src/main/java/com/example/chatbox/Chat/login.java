@@ -1,16 +1,12 @@
-package com.example.chatbox;
+package com.example.chatbox.Chat;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
 
 public class login extends VBox {
 

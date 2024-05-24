@@ -1,16 +1,20 @@
-package com.example.chatbox;
+package com.example.chatbox.Chat;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.stage.WindowEvent;
 
-public class front extends VBox {
+import java.io.File;
+
+public class front extends AnchorPane {
 
     private TextArea ShowText;
     private TextField chat;
@@ -18,24 +22,38 @@ public class front extends VBox {
 
     public front(){
 
+
+        File file=new File("src/main/java/com/example/chatbox/Chat/image/f870db90-8039-11ee-9772-4f8ebbd9a655.jpg");
+//        File file2=new File("src/main/java/com/example/chatbox/Chat/image/poster_eeb21cb2-1f9f-491b-8b3f-b7f69d60c04f.jpg");
+
+        Image image=new Image(file.toURI().toString());
+//        Image image2=new Image(file2.toURI().toString());
+
+        ImageView imageView=new ImageView(image);
+//        ImageView imageView1=new ImageView(image2);
         setShowText(new TextArea());
-        ImageView imageView=new ImageView();
-        HBox chatShow=new HBox(getShowText(),imageView);
+
+        HBox chatShow=new HBox(getShowText());
+        chatShow.setSpacing(20);
         chatShow.setDisable(false);
         chatShow.setAlignment(Pos.BOTTOM_LEFT);
-        chatShow.();
-        Lighting lit= new Lighting();
 
+        Lighting lit= new Lighting();
+        getShowText().setEditable(false);
         chatShow.setEffect(lit);
 
         setBtnsned(new Button("send"));
         setChat(new TextField());
-        HBox chatSend=new HBox(getChat(), getBtnsned());
-        chatSend.setAlignment(Pos.BOTTOM_LEFT);
-        this.getChildren().addAll (chatShow,chatSend);
 
-        this.setAlignment(Pos.CENTER);
-        this.setSpacing(15);
+
+        HBox chatSend=new HBox(getChat(), getBtnsned());
+        chatSend.setAlignment(Pos.CENTER);
+        VBox vBox=new VBox(chatShow,chatSend);
+
+        vBox.setAlignment(Pos.CENTER);
+
+        vBox.setSpacing(15);
+        this.getChildren().addAll(imageView,vBox);
 
     }
 
@@ -68,5 +86,8 @@ public class front extends VBox {
 
     public void appendToChat(String message) {
 
+    }
+
+    public void setOnCloseRequest(EventHandler<WindowEvent> eventHandler) {
     }
 }

@@ -1,8 +1,9 @@
-package com.example.chatbox;
+package com.example.chatbox.Chat;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.TextArea;
+import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,9 +25,17 @@ public  class backend {
     String name ;
 
     public  backend(String name) throws IOException {
+
         this.name=name;
         this.Show = new front();
         text = "";
+        Show.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 
         Runnable runnable = () -> {
             DataOutputStream out;

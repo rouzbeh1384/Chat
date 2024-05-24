@@ -1,9 +1,8 @@
-package com.example.chatbox;
+package com.example.chatbox.Chat;
 
+import com.example.chatbox.Chat.backend;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.example.chatbox;
+package com.example.chatbox.Chat;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

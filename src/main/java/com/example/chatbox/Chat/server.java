@@ -1,5 +1,7 @@
-package com.example.chatbox;
+package com.example.chatbox.Chat;
 
+
+import com.example.chatbox.Chat.ClientHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
