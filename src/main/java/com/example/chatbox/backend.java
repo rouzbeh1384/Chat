@@ -21,9 +21,10 @@ public  class backend {
     private static final String SERVER_IP = "127.0.0.1";
     // Port of the server to connect to
     private static final int SERVER_PORT = 3000;
+    String name ;
 
-
-    public  backend() throws IOException {
+    public  backend(String name) throws IOException {
+        this.name=name;
         this.Show = new front();
         text = "";
 
@@ -37,13 +38,7 @@ public  class backend {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            try {
-                out = new DataOutputStream(client.getOutputStream());
-                in= new DataInputStream(client.getInputStream());
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             //TODO set lable for connect
 
             HandleServerResponse handleServerResponse = null;
@@ -53,10 +48,14 @@ public  class backend {
                 throw new RuntimeException(e);
             }
             new Thread(handleServerResponse).start();
-
             while (true) {
-                Action(out);
-//                massage(in);
+                try {
+                    Action(client);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+
             }
         };
         Thread thread=new Thread(runnable);
@@ -64,37 +63,23 @@ public  class backend {
 
     }
 
-    private void massage(DataInput in) {
+
+
+    public void Action(Socket socket) throws IOException {
+        DataOutputStream   out = new DataOutputStream(socket.getOutputStream());
         getShow().getBtnsned().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
 
                 String s= getShow().getChat().getText();
-
-                text=s;
-                try {
-                    s+=in.readUTF();
-                    getShow().setText("my :"+s+"\n");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-    }
-
-    public void Action(DataOutputStream out){
-        getShow().getBtnsned().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-                String s= getShow().getChat().getText();
-
-                text=s;
+                text=name+" : "+s;
                 try {
                     out.writeUTF(text);
+//                    getShow().getChat().setText("");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
             }
         });
     }
@@ -107,7 +92,7 @@ public  class backend {
         public void run() {
             try {
                 while(true) {
-                    getShow().setText(getShow().getShowText().getText()+"\nServer says:!! " + this.in.readUTF());
+                    getShow().setText(getShow().getShowText().getText()+"\n"+ this.in.readUTF());
                     System.out.println(this.in.readUTF());
                 }
             } catch (IOException e) {

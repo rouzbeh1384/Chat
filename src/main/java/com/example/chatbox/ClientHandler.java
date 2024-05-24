@@ -16,10 +16,12 @@ import java.util.ArrayList;
         private DataInputStream in;
         private DataOutputStream out;
 
+        ArrayList<String>massage;
 
         public ClientHandler(Socket client, ArrayList<Socket> clients) throws IOException {
             this.clients = clients;
             this.client = client;
+            massage=new ArrayList<>();
             // Initialize input and output streams for communication with the client
             this.in = new DataInputStream(client.getInputStream());
             this.out = new DataOutputStream(client.getOutputStream());
@@ -32,12 +34,9 @@ import java.util.ArrayList;
                 String request;
                 while (true) {
                     request = this.in.readUTF();
+                    massage.add(request);
                     if (request != null) {
-                        if (request.startsWith("name")) {
-                            this.out.writeUTF("Hi ");
-                        } else {
-                            sendToAll(request);
-                        }
+                        sendToAll(request);
                         System.out.println("[SERVER] request: " + request);
                     }
                 }

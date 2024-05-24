@@ -23,6 +23,7 @@ public class front extends VBox {
         HBox chatShow=new HBox(getShowText(),imageView);
         chatShow.setDisable(false);
         chatShow.setAlignment(Pos.BOTTOM_LEFT);
+        chatShow.();
         Lighting lit= new Lighting();
 
         chatShow.setEffect(lit);
@@ -32,6 +33,7 @@ public class front extends VBox {
         HBox chatSend=new HBox(getChat(), getBtnsned());
         chatSend.setAlignment(Pos.BOTTOM_LEFT);
         this.getChildren().addAll (chatShow,chatSend);
+
         this.setAlignment(Pos.CENTER);
         this.setSpacing(15);
 
