@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class File_Transfer extends Application {
         @Override
         public void start(Stage stage) throws IOException, InterruptedException, URISyntaxException {
-            backend backend =new backend();
-            front font=new front();
-            stage.setScene(new Scene(font));
+            backend backend=new backend("rouzbeg");
+
+            stage.setScene(new Scene(backend.getShow()));
             stage.show();
 
         }

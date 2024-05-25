@@ -7,7 +7,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.net.Socket;
-
+import java.util.Scanner;
 
 
 public  class backend {
@@ -17,33 +17,45 @@ public  class backend {
 
 
 
+    Boolean Know=false;
+
 
     String text ;
+
     private static final String SERVER_IP = "127.0.0.1";
     // Port of the server to connect to
-    private static final int SERVER_PORT = 3001;
+    private static final int SERVER_PORT = 3000;
     String name ;
+    File file=new File("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\com\\example\\chatbox\\Chat\\list.txt");
+
 
     public  backend(String name) throws IOException {
 
-        this.name=name;
+
+
+
+
+        this.name = name;
         this.Show = new front();
         text = "";
-        Show.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                Platform.exit();
-                System.exit(0);
-            }
-        });
+        this.name=name;
+        this.Show = new front();
+
+        Scanner scanner=new Scanner(file);
+        while (scanner.hasNext()){
+            Show.getShowText().setText(scanner.nextLine()+"\n");
+        }
+
+
+        text = "";
+
+
 
         Runnable runnable = () -> {
-//            DataOutputStream out;
-//            DataInput in;
-
             Socket client = null;
             try {
                 client = new Socket(SERVER_IP, SERVER_PORT);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -84,6 +96,8 @@ public  class backend {
                 text=name+" : "+s;
                 try {
                     out.writeUTF(text);
+                    FileWriter fileWriter=new FileWriter(file,true);
+                    fileWriter.append(s+"\n");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -100,9 +114,15 @@ public  class backend {
         public void run() {
             try {
                 while(true) {
+
                     String s=this.in.readUTF();
-                    getShow().setText(getShow().getShowText().getText()+"\n"+s);
                     System.out.println(s);
+
+
+                    Show.getShowText().setText(Show.getShowText().getText()+"\n"+s);
+                    Show.getChat().setText("");
+
+
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

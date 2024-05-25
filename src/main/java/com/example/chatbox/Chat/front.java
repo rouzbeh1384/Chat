@@ -1,5 +1,6 @@
 package com.example.chatbox.Chat;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -84,10 +85,15 @@ public class front extends AnchorPane {
         this.btnsned = btnsned;
     }
 
-    public void appendToChat(String message) {
 
-    }
 
     public void setOnCloseRequest(EventHandler<WindowEvent> eventHandler) {
+        this.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
 }

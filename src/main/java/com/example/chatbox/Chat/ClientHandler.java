@@ -1,8 +1,6 @@
 package com.example.chatbox.Chat;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -16,15 +14,17 @@ import java.util.ArrayList;
         private DataInputStream in;
         private DataOutputStream out;
 
+        Boolean b=true;
         ArrayList<String>massage;
-
+        FileWriter file;
         public ClientHandler(Socket client, ArrayList<Socket> clients) throws IOException {
             this.clients = clients;
             this.client = client;
-            massage=new ArrayList<>();
             // Initialize input and output streams for communication with the client
             this.in = new DataInputStream(client.getInputStream());
             this.out = new DataOutputStream(client.getOutputStream());
+            massage=new ArrayList<>();
+            this.file=new FileWriter("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\com\\example\\chatbox\\Chat\\list.txt");
         }
 
 
@@ -34,10 +34,11 @@ import java.util.ArrayList;
                 String request;
                 while (true) {
                     request = this.in.readUTF();
-                    massage.add(request);
+
                     if (request != null) {
                         sendToAll(request);
                         System.out.println("[SERVER] request: " + request);
+                        massage.add(request);
                     }
                 }
             } catch (IOException e) {
@@ -45,6 +46,7 @@ import java.util.ArrayList;
                 e.printStackTrace();
             } finally {
                 try {
+                    file.close();
                     // Close input and output streams and the client socket when done
                     in.close();
                     out.close();

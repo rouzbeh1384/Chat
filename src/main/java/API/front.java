@@ -37,7 +37,8 @@ public class front extends AnchorPane {
 //        pathlbl.setText("PATH");
 
         down=new Button("DOWNLOAD");
-        setPathtet(new TextField("C:\\Users\\Asus\\Downloads"));
+        setPathtet(new TextField());
+        this.pathtet.setPromptText("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\File_test");
         File existingImageFile = new File("src/main/java/API/image/pngtree-rainbow-curves-abstract-colorful-background-image_2164067.jpg");
         Image image = new Image(existingImageFile.toURI().toString());
         imageView=new ImageView(image);

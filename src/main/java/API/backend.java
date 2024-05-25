@@ -1,28 +1,35 @@
 package API;
 
+import API.front;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
-public class backend {
 
 
+public  class backend {
+
+
+    private front Show;
+
+
+
+
+    String text ;
     private static final String SERVER_IP = "127.0.0.1";
     // Port of the server to connect to
     private static final int SERVER_PORT = 3000;
-    public front Show;
+    String name ;
 
-    public backend() {
-        Show = new front();
+    public  backend(String name) throws IOException {
 
-
+        this.name=name;
+        this.Show = new front();
+        text = "";
         Show.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -31,11 +38,9 @@ public class backend {
             }
         });
 
-
-
         Runnable runnable = () -> {
-            DataOutputStream out;
-            DataInput in;
+//            DataOutputStream out;
+//            DataInput in;
 
             Socket client = null;
             try {
@@ -45,70 +50,43 @@ public class backend {
             }
 
 
-            HandleServerResponse handleServerResponse = null;
+
+            HandleServerResponse handleServerResponse1 = null;
             try {
-                handleServerResponse = new HandleServerResponse(client);
+                handleServerResponse1 = new HandleServerResponse(client);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            new Thread(handleServerResponse).start();
+            new Thread(handleServerResponse1).start();
             while (true) {
                 try {
-//                    System.out.println("1234");
-                    action(client);
-                } catch (Exception e) {
+                    Action(client);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
 
             }
         };
-        Thread thread = new Thread(runnable);
+        Thread thread=new Thread(runnable);
         thread.start();
-
 
     }
 
 
-public void Action3(Socket socket) throws IOException {
-    DataOutputStream   out = new DataOutputStream(socket.getOutputStream());
 
-    Show.getDown().setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            try {
-                out.writeUTF(getShow().getComboBox().getValue().toString());
+    public void Action(Socket socket) throws IOException {
+        DataOutputStream   out = new DataOutputStream(socket.getOutputStream());
+        getShow().getDown().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    System.out.println( Show.getComboBox().getValue().toString());
+                    out.writeUTF(Show.getComboBox().getValue().toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-    });
-}
-//    public void Action(Socket socket) throws IOException {
-//        DataOutputStream   out = new DataOutputStream(socket.getOutputStream());
-//        Show.down.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                try {
-//                    out.writeUTF("text");
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//            }
-//        });
-//    }
-
-    public void action(Socket socket) throws IOException {
-         DataOutputStream   out = new DataOutputStream(socket.getOutputStream());
-
-        Show.down.setOnAction(event -> {
-            try {
-                out.writeUTF("String");
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         });
     }
@@ -120,21 +98,25 @@ public void Action3(Socket socket) throws IOException {
         @Override
         public void run() {
             try {
-                while(true) {
-                    System.out.println(this.in.readUTF());
-                }
+                System.out.println("asdasdadasd");
+
+                    while (true) {
+                        String s = this.in.readUTF();
+//                        File file1=new File("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\API");
+                        FileWriter file=new FileWriter(Show.getPathtet().getText());
+
+                        System.out.println(s);
+                        System.out.println(s);
+                        file.append(s+"\n");
+                    }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
         }
     }
-
-    public front getShow(){
-    return Show;
+    public front getShow() {
+        return Show;
     }
-
-
-
 }
-
-
