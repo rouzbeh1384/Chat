@@ -21,7 +21,7 @@ public  class backend {
     String text ;
     private static final String SERVER_IP = "127.0.0.1";
     // Port of the server to connect to
-    private static final int SERVER_PORT = 3000;
+    private static final int SERVER_PORT = 3001;
     String name ;
 
     public  backend(String name) throws IOException {
@@ -38,8 +38,8 @@ public  class backend {
         });
 
         Runnable runnable = () -> {
-            DataOutputStream out;
-            DataInput in;
+//            DataOutputStream out;
+//            DataInput in;
 
             Socket client = null;
             try {
@@ -48,15 +48,15 @@ public  class backend {
                 throw new RuntimeException(e);
             }
 
-            //TODO set lable for connect
 
-            HandleServerResponse handleServerResponse = null;
+
+            HandleServerResponse handleServerResponse1 = null;
             try {
-                handleServerResponse = new HandleServerResponse(client);
+                handleServerResponse1 = new HandleServerResponse(client);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            new Thread(handleServerResponse).start();
+            new Thread(handleServerResponse1).start();
             while (true) {
                 try {
                     Action(client);
@@ -84,7 +84,6 @@ public  class backend {
                 text=name+" : "+s;
                 try {
                     out.writeUTF(text);
-//                    getShow().getChat().setText("");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -101,8 +100,9 @@ public  class backend {
         public void run() {
             try {
                 while(true) {
-                    getShow().setText(getShow().getShowText().getText()+"\n"+ this.in.readUTF());
-                    System.out.println(this.in.readUTF());
+                    String s=this.in.readUTF();
+                    getShow().setText(getShow().getShowText().getText()+"\n"+s);
+                    System.out.println(s);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
