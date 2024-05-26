@@ -23,22 +23,26 @@ import java.util.ArrayList;
             // Initialize input and output streams for communication with the client
             this.in = new DataInputStream(client.getInputStream());
             this.out = new DataOutputStream(client.getOutputStream());
-            massage=new ArrayList<>();
-            this.file=new FileWriter("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\com\\example\\chatbox\\Chat\\list.txt");
+
         }
 
 
         @Override
         public void run() {
             try {
+                File file1=new File("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\API\\dont-matter-to-me-drake.txt");
+                System.out.println(file1.exists());
+
                 String request;
                 while (true) {
                     request = this.in.readUTF();
 
                     if (request != null) {
+                        this.file=new FileWriter(file1,true);
                         sendToAll(request);
                         System.out.println("[SERVER] request: " + request);
-                        massage.add(request);
+                        file.append(request+"\n");
+                        file.close();
                     }
                 }
             } catch (IOException e) {
@@ -47,6 +51,7 @@ import java.util.ArrayList;
             } finally {
                 try {
                     file.close();
+
                     // Close input and output streams and the client socket when done
                     in.close();
                     out.close();

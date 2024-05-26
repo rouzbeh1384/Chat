@@ -26,24 +26,29 @@ public  class backend {
     // Port of the server to connect to
     private static final int SERVER_PORT = 3000;
     String name ;
-    File file=new File("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\com\\example\\chatbox\\Chat\\list.txt");
+    File file;
 
 
     public  backend(String name) throws IOException {
 
 
 
+        this.file=new File("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\API\\dont-matter-to-me-drake.txt");
 
-
+        System.out.println(file.exists());
         this.name = name;
         this.Show = new front();
         text = "";
         this.name=name;
         this.Show = new front();
 
+
         Scanner scanner=new Scanner(file);
+        System.out.println(scanner.hasNext());
         while (scanner.hasNext()){
-            Show.getShowText().setText(scanner.nextLine()+"\n");
+            String s= scanner.nextLine();
+            Show.getShowText().setText(Show.getShowText().getText()+"\n"+s);
+            System.out.println(s);
         }
 
 

@@ -18,7 +18,7 @@ public  class backend {
 
 
 
-
+    File file1;
     String text ;
     private static final String SERVER_IP = "127.0.0.1";
     // Port of the server to connect to
@@ -81,8 +81,11 @@ public  class backend {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    System.out.println( Show.getComboBox().getValue().toString());
+                    file1=new File(Show.getPathtet().getText()+"\\"+Show.getComboBox().getValue().toString());
+                   file1.createNewFile();
+                    System.out.println(file1.exists());
                     out.writeUTF(Show.getComboBox().getValue().toString());
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -98,17 +101,18 @@ public  class backend {
         @Override
         public void run() {
             try {
-                System.out.println("asdasdadasd");
 
                     while (true) {
                         String s = this.in.readUTF();
-//                        File file1=new File("C:\\Users\\Asus\\Desktop\\exercise javafx\\chatBox\\src\\main\\java\\API");
-                        FileWriter file=new FileWriter(Show.getPathtet().getText());
-
-                        System.out.println(s);
-                        System.out.println(s);
-                        file.append(s+"\n");
+                        if (file1.exists()) {
+                            FileWriter file = new FileWriter(file1, true);
+                            file.write(s + "\n");
+                            file.close();
+                        }
                     }
+
+
+
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
